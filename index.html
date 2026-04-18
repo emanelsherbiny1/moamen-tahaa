@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Momen & Rojan - Wedding Invitation</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    /* ═══════════════════════════════════════
+        RESET & VARIABLES
+       ═══════════════════════════════════════ */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    
+    :root {
+      --bg-dark: #191213;
+      --curtain-dark: #2a080c;
+      --text-main: #dfd4c9;
+      --text-muted: #95857b;
+      --accent-gold: #c39b6b;
+      --card-bg: #22181a;
+      --border-color: #38292c;
+      --font-cursive: 'Great Vibes', cursive;
+      --font-sans: 'Montserrat', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    .app-container {
+      max-width: 480px;
+      margin: 0 auto;
+      background-color: var(--bg-dark);
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+      position: relative;
+    }
+
+    /* ═══════════════════════════════════════
+        1. HERO SECTION & CURTAIN ANIMATION
+       ═══════════════════════════════════════ */
+    .hero {
+      position: relative;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background: linear-gradient(to bottom, #4a131a 0%, #191213 100%);
+      overflow: hidden;
+      padding: 0 20px;
+      cursor: pointer; /* تمت إضافة هذه الخاصية ليوحي بإمكانية النقر */
+    }
+
+    .hero.open {
+      cursor: default; /* إعادة المؤشر لطبيعته بعد الفتح */
+    }
+
+    .curtain {
+      position: absolute;
+      top: 0;
+      width: 50%;
+      height: 100%;
+      background: repeating-linear-gradient(to right, #3d0d12 0%, #2a080c 15%, #4a131a 30%, #2a080c 45%, #3d0d12 60%);
+      z-index: 10;
+      transition: all 2.5s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: inset 0 0 50px rgba(0,0,0,0.7);
+    }
+
+    .left-curtain {
+      left: 0;
+      transform-origin: left top;
+      border-right: 1px solid rgba(0,0,0,0.3);
+    }
+
+    .right-curtain {
+      right: 0;
+      transform-origin: right top;
+      border-left: 1px solid rgba(0,0,0,0.3);
+    }
+
+    .hero.open .left-curtain {
+      transform: scaleX(0.2) skewY(-5deg) translateX(-40%);
+      opacity: 0.9;
+    }
+
+    .hero.open .right-curtain {
+      transform: scaleX(0.2) skewY(5deg) translateX(40%);
+      opacity: 0.9;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+    }
+
+    .hero-names {
+      font-family: var(--font-cursive);
+      font-size: 56px;
+      line-height: 1.1;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+    }
+
+    .hero-parents {
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+    }
+
+    .hero-date-loc {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.8;
+      margin-bottom: 40px;
+    }
+
+    .btn-outline {
+      display: inline-block;
+      border: 1px solid rgba(223, 212, 201, 0.4);
+      color: var(--text-main);
+      text-decoration: none;
+      padding: 12px 35px;
+      border-radius: 30px;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      transition: background 0.3s, color 0.3s;
+    }
+    .btn-outline:hover { background: var(--text-main); color: var(--bg-dark); }
+
+    .scroll-down {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      animation: bounce 2s infinite;
+    }
+    .scroll-down svg { width: 16px; height: 16px; fill: none; stroke: var(--text-muted); stroke-width: 2; }
+
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateY(0) translateX(-50%); }
+      40% { transform: translateY(-10px) translateX(-50%); }
+    }
+
+    /* ═══════════════════════════════════════
+        2. GENERAL SECTIONS
+       ═══════════════════════════════════════ */
+    section { padding: 50px 25px; }
+    h2.section-title {
+      font-family: var(--font-cursive);
+      font-size: 42px;
+      text-align: center;
+      margin-bottom: 5px;
+      color: var(--text-main);
+      font-weight: normal;
+    }
+    p.section-subtitle {
+      text-align: center;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 30px;
+    }
+    
+    .divider-dot {
+      text-align: center; margin: 40px 0; display: flex; align-items: center; justify-content: center; gap: 10px;
+    }
+    .divider-dot::before, .divider-dot::after { content: ""; height: 1px; width: 40px; background-color: var(--border-color); }
+    .divider-dot span { width: 4px; height: 4px; background-color: var(--text-muted); border-radius: 50%; }
+
+    /* ═══════════════════════════════════════
+        3. COUNTDOWN
+       ═══════════════════════════════════════ */
+    .countdown-grid { display: flex; justify-content: center; gap: 12px; margin-top: 20px; }
+    .cd-box { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; width: 70px; padding: 15px 0; text-align: center; }
+    .cd-num { font-family: 'Montserrat', sans-serif; font-size: 26px; font-weight: 300; color: var(--accent-gold); margin-bottom: 4px; }
+    .cd-label { font-size: 8px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); }
+
+    /* ═══════════════════════════════════════
+        4. DETAILS OF THE DAY
+       ═══════════════════════════════════════ */
+    .details-card { background: var(--card-bg); border-radius: 12px; overflow: hidden; margin-top: 20px; }
+    .details-img { width: 100%; height: 200px; object-fit: cover; }
+    .details-content { padding: 25px; text-align: left; }
+    .details-content h3 { font-family: var(--font-sans); font-size: 16px; font-weight: 400; margin-bottom: 5px; color: var(--text-main); }
+    .details-content p.hall-name { font-size: 14px; color: var(--text-muted); margin-bottom: 25px; }
+    
+    .info-row { display: flex; align-items: center; margin-bottom: 15px; gap: 15px; }
+    .info-row svg { width: 18px; height: 18px; fill: none; stroke: var(--accent-gold); stroke-width: 1.5; flex-shrink: 0; }
+    .info-row span { font-size: 13px; color: var(--text-main); font-weight: 300; }
+
+    .btn-group { display: flex; flex-direction: column; gap: 10px; margin-top: 30px; }
+    .btn-solid {
+      display: flex; align-items: center; justify-content: center; gap: 8px; background: var(--accent-gold);
+      color: #3b2814; text-decoration: none; padding: 14px; border-radius: 30px; font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px;
+    }
+    .btn-solid svg { stroke: #3b2814; width: 16px; height: 16px; }
+
+    .btn-outline-gold {
+      display: flex; align-items: center; justify-content: center; gap: 8px; border: 1px solid var(--accent-gold);
+      color: var(--accent-gold); text-decoration: none; padding: 14px; border-radius: 30px; font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px;
+    }
+    .btn-outline-gold svg { stroke: var(--accent-gold); width: 16px; height: 16px; }
+
+    /* ═══════════════════════════════════════
+        5. PROGRAM & TIMELINE
+       ═══════════════════════════════════════ */
+    .timeline { position: relative; margin-top: 30px; padding-left: 30px; text-align: left; }
+    .timeline::before { content: ''; position: absolute; left: 14px; top: 10px; bottom: 10px; width: 1px; background: rgba(195, 155, 107, 0.3); }
+    .timeline-item { position: relative; margin-bottom: 40px; }
+    .tl-icon {
+      position: absolute; left: -30px; top: 0; width: 28px; height: 28px; background: var(--bg-dark);
+      border: 1px solid rgba(195, 155, 107, 0.5); border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    }
+    .tl-icon svg { width: 12px; height: 12px; fill: var(--accent-gold); }
+    .tl-content { padding-left: 20px; }
+    .tl-title { font-size: 15px; color: var(--text-main); font-weight: 400; margin-bottom: 5px; }
+    .tl-time { font-size: 13px; color: var(--accent-gold); margin-bottom: 4px; }
+    .tl-desc { font-size: 12px; color: var(--text-muted); }
+
+    /* ═══════════════════════════════════════
+        6. FAQ & GIFTS
+       ═══════════════════════════════════════ */
+    .faq-container { margin-top: 20px; text-align: left; }
+    details { border-bottom: 1px solid var(--border-color); padding: 15px 0; }
+    summary { display: flex; justify-content: space-between; align-items: center; font-size: 14px; color: var(--text-main); cursor: pointer; list-style: none; outline: none; }
+    summary svg { width: 16px; height: 16px; stroke: var(--text-muted); transition: transform 0.3s; }
+    details[open] summary svg { transform: rotate(180deg); }
+    .faq-answer { padding-top: 10px; font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+
+    .gift-icon { width: 40px; height: 40px; margin: 0 auto 15px; background: var(--card-bg); border: 1px solid rgba(195, 155, 107, 0.4); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+    .gift-icon svg { width: 18px; height: 18px; stroke: var(--accent-gold); fill: none; }
+    .gifts-text { font-size: 12px; color: var(--text-muted); line-height: 1.6; margin-bottom: 20px; }
+    .gifts-box { background: var(--card-bg); border: 1px solid var(--border-color); padding: 20px; border-radius: 8px; font-size: 13px; color: var(--text-main); font-style: italic; }
+
+    /* ═══════════════════════════════════════
+        7. FOOTER
+       ═══════════════════════════════════════ */
+    footer { background-color: var(--accent-gold); color: #3b2814; text-align: center; padding: 40px 20px 20px; border-radius: 20px 20px 0 0; position: relative; margin-top: 50px;}
+    .back-to-top { background: transparent; border: none; color: #3b2814; font-family: var(--font-sans); font-size: 10px; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 5px; margin: 0 auto 30px; }
+    .back-to-top svg { width: 16px; height: 16px; stroke: #3b2814; stroke-width: 2; fill: none; }
+    .footer-names { font-family: var(--font-cursive); font-size: 42px; margin-bottom: 5px; }
+    .footer-date { font-size: 12px; margin-bottom: 30px; opacity: 0.8; }
+    .footer-credits { font-size: 10px; opacity: 0.6; display: flex; align-items: center; justify-content: center; gap: 4px; }
+    .footer-credits svg { width: 10px; height: 10px; fill: #3b2814; }
+
+    /* ═══════════════════════════════════════
+        8. MUSIC BUTTON STYLES
+       ═══════════════════════════════════════ */
+    .music-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 1000;
+      background: var(--accent-gold);
+      border: none;
+      border-radius: 50%;
+      width: 45px;
+      height: 45px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+      transition: transform 0.3s;
+    }
+    .music-btn:hover {
+      transform: scale(1.1);
+    }
+    .music-btn svg {
+      width: 20px;
+      height: 20px;
+      fill: #3b2814;
+    }
+    .music-btn.playing {
+      animation: pulseMusic 2s infinite;
+    }
+    @keyframes pulseMusic {
+      0% { box-shadow: 0 0 0 0 rgba(195, 155, 107, 0.7); }
+      70% { box-shadow: 0 0 0 10px rgba(195, 155, 107, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(195, 155, 107, 0); }
+    }
+
+  </style>
+</head>
+<body>
+
+<div class="app-container">
+
+  <section class="hero" id="top">
+    <div class="curtain left-curtain"></div>
+    <div class="curtain right-curtain"></div>
+
+    <div class="hero-content">
+      <h1 class="hero-names">momen & Rojan</h1>
+      <p class="hero-parents">Taha zahran · Abdelrazik elghetany</p>
+      <p class="hero-date-loc">Wednesday, May 6, 2026<br>Marly hall</p>
+      <a href="#countdown" class="btn-outline">SAVE THE DATE</a>
+    </div>
+    <div class="scroll-down">
+      <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"></path></svg>
+    </div>
+  </section>
+
+  <section id="countdown">
+    <h2 class="section-title">Countdown</h2>
+    <p class="section-subtitle">Until we say "I do"</p>
+    
+    <div class="countdown-grid">
+      <div class="cd-box"><div class="cd-num" id="cd-days">00</div><div class="cd-label">DAYS</div></div>
+      <div class="cd-box"><div class="cd-num" id="cd-hours">00</div><div class="cd-label">HOURS</div></div>
+      <div class="cd-box"><div class="cd-num" id="cd-minutes">00</div><div class="cd-label">MINUTES</div></div>
+      <div class="cd-box"><div class="cd-num" id="cd-seconds">00</div><div class="cd-label">SECONDS</div></div>
+    </div>
+    
+    <div class="divider-dot"><span></span></div>
+  </section>
+
+  <section id="details">
+    <h2 class="section-title">Details of the Day</h2>
+    <p class="section-subtitle">Everything you need to know about our special day</p>
+
+    <div class="details-card">
+      <img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?q=80&w=600&auto=format&fit=crop" alt="Venue" class="details-img">
+      <div class="details-content">
+        <h3>Location</h3>
+        <p class="hall-name">Marly hall</p>
+
+        <div class="info-row">
+          <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+          <span>Armed forces hotel, RAS ELBAR</span>
+        </div>
+        <div class="info-row">
+          <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+          <span>Wednesday, May 6, 2026</span>
+        </div>
+        <div class="info-row">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+          <span>From 7:00 PM</span>
+        </div>
+
+        <div class="btn-group">
+          <a href="https://maps.app.goo.gl/dVEU1xRRdC3HrHR19" target="_blank" class="btn-solid">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            How to get there
+          </a>
+          <a href="#" class="btn-outline-gold">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+            Add to Calendar
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="program">
+    <h2 class="section-title">Program of the Day</h2>
+    <p class="section-subtitle">Join us through every moment of our celebration</p>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="tl-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>
+        </div>
+        <div class="tl-content">
+          <h3 class="tl-title">Curtain Rises</h3>
+          <p class="tl-time">19:00</p>
+          <p class="tl-desc">Opening ceremony</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="tl-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>
+        </div>
+        <div class="tl-content">
+          <h3 class="tl-title">Final Bow</h3>
+          <p class="tl-time">02:00</p>
+          <p class="tl-desc">End of performance</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="divider-dot"><span></span></div>
+  </section>
+
+  <section id="faq">
+    <h2 class="section-title">Frequently Asked Questions</h2>
+    <div class="faq-container">
+      <details>
+        <summary>What should I wear? <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M6 9l6 6 6-6"></path></svg></summary>
+        <div class="faq-answer">Wear whatever makes you feel comfortable and confident.</div>
+      </details>
+      <details>
+        <summary>Is this a themed wedding? <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M6 9l6 6 6-6"></path></svg></summary>
+        <div class="faq-answer">Yes, it has a classic theatrical/evening theme. We'd love for you to dress the part!</div>
+      </details>
+      <details>
+        <summary>Can I take photos? <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M6 9l6 6 6-6"></path></svg></summary>
+        <div class="faq-answer">We invite you to be fully present during the ceremony, but please feel free to take as many photos as you'd like during the reception.</div>
+      </details>
+    </div>
+  </section>
+
+  <section id="gifts">
+    <div class="gift-icon">
+      <svg viewBox="0 0 24 24"><polyline points="20 12 20 22 4 22 4 12"></polyline><rect x="2" y="7" width="20" height="5"></rect><line x1="12" y1="22" x2="12" y2="7"></line><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path></svg>
+    </div>
+    <h2 class="section-title" style="font-size: 36px;">Gifts</h2>
+    <p class="gifts-text">Your presence is the greatest gift. However, if you wish to contribute to our new life together, here are the details:</p>
+    <div class="gifts-box">
+      Your presence is the standing ovation we desire.
+    </div>
+  </section>
+
+  <footer>
+    <button class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+      <svg viewBox="0 0 24 24"><path d="M18 15l-6-6-6 6"></path></svg>
+      BACK TO TOP
+    </button>
+    <div class="footer-diamond"></div>
+    <div class="footer-names">momen & Rojan</div>
+    <div class="footer-date">May 6, 2026</div>
+    <div class="footer-credits">
+      <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"></path></svg>
+      Powered by Pressed Love
+    </div>
+  </footer>
+
+</div>
+
+<button id="music-toggle" class="music-btn" aria-label="Play/Pause Music">
+  <svg viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"></path></svg>
+</button>
+
+<audio id="bg-music" loop>
+ <source src="muu.mp4" type="audio/mpeg">
+ متصفحك لا يدعم تشغيل الصوت.
+</audio>
+
+<script>
+  // 1. تعريف العناصر الأساسية
+  const music = document.getElementById('bg-music');
+  const musicBtn = document.getElementById('music-toggle');
+  const heroSection = document.querySelector('.hero');
+  let isPlaying = false;
+  let isCurtainOpened = false; // متغير للتحقق مما إذا كانت الستارة قد فتحت بالفعل
+
+  // 2. فتح الستارة وتشغيل الموسيقى عند النقر على قسم الشاشة الافتتاحية
+  heroSection.addEventListener('click', function() {
+    if (!isCurtainOpened) {
+      // فتح الستارة
+      heroSection.classList.add('open');
+      isCurtainOpened = true;
+
+      // محاولة تشغيل الصوت
+      music.play().then(() => {
+        isPlaying = true;
+        musicBtn.classList.add('playing');
+      }).catch((error) => {
+        console.log("لم يتمكن المتصفح من تشغيل الصوت:", error);
+      });
+    }
+  });
+
+  // 3. العداد التنازلي ليوم 6 مايو 2026
+  const countDownDate = new Date("May 6, 2026 19:00:00").getTime();
+
+  const x = setInterval(function() {
+    const now = new Date().getTime();
+    const distance = countDownDate - now;
+
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    document.getElementById("cd-days").innerHTML = days < 10 ? "0" + days : days;
+    document.getElementById("cd-hours").innerHTML = hours < 10 ? "0" + hours : hours;
+    document.getElementById("cd-minutes").innerHTML = minutes < 10 ? "0" + minutes : minutes;
+    document.getElementById("cd-seconds").innerHTML = seconds < 10 ? "0" + seconds : seconds;
+
+    if (distance < 0) {
+      clearInterval(x);
+      document.getElementById("cd-days").innerHTML = "00";
+      document.getElementById("cd-hours").innerHTML = "00";
+      document.getElementById("cd-minutes").innerHTML = "00";
+      document.getElementById("cd-seconds").innerHTML = "00";
+    }
+  }, 1000);
+
+  // 4. التحكم في الموسيقى عند الضغط على زر الموسيقى العائم
+  musicBtn.addEventListener('click', (e) => {
+    // إيقاف انتقال النقر لكي لا يتعارض مع الستارة إذا كان الزر فوقها
+    e.stopPropagation(); 
+    
+    if (isPlaying) {
+      music.pause();
+      musicBtn.classList.remove('playing');
+    } else {
+      music.play();
+      musicBtn.classList.add('playing');
+    }
+    isPlaying = !isPlaying;
+  });
+</script>
+
+</body>
+</html>
